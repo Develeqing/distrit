@@ -5,6 +5,46 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Distrit Merch</title>
   <style>
+
+.search-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.search-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  transition: 0.3s;
+}
+
+.search-icon:hover {
+  transform: scale(1.1);
+}
+
+/* input oculto al inicio */
+#buscador {
+  width: 0;
+  opacity: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  transition: 0.3s ease;
+}
+
+/* cuando está activo */
+.search-box.active #buscador {
+  width: 200px;
+  opacity: 1;
+  padding: 10px 15px;
+  border-radius: 20px;
+  border: none;
+}
     
 .header-right {
   display: flex;
@@ -260,12 +300,11 @@
 .producto button {
   width: 100%;
   margin-top: 10px;
-  opacity: 0;
-  transform: translateY(10px);
+  opacity: 0.6;
+  transform: translateY(5px);
   transition: 0.3s;
 }
 
-/* APARECE EN HOVER */
 .producto:hover button {
   opacity: 1;
   transform: translateY(0);
@@ -338,6 +377,19 @@ nav {
 /* HOVER SUAVE */
 .menu-btn:hover {
   background: #dcdcdc;
+}
+
+.menu-float {
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+  transition: 0.3s ease;
+}
+
+.menu-float.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
 }
 
 .menu-opciones {
@@ -496,6 +548,24 @@ header {
   text-align: center;
 }
 
+.product-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.7);
+
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+}
+
+.product-modal.active {
+  display: flex;
+}
+
   </style>
 </head>
 
@@ -515,9 +585,12 @@ header {
 <header>
   <img src="distrit.png" alt="Distrit" class="logo">
 
+  <div class="search-box">
+  <button class="search-icon" onclick="toggleSearch()">✎</button>
+
   <input 
     type="text" 
-    id="buscador" 
+    id="buscador"
     placeholder="Buscar productos..."
     oninput="buscarProductos()"
   >
@@ -526,6 +599,31 @@ header {
     🛒 <span id="contador-carrito">0</span>
   </button>
 </header>
+
+<section class="hero">
+  <h1>NUEVA COLECCIÓN</h1>
+  <p>Streetwear exclusivo - Distrit</p>
+  <button onclick="filtrarProductos('camisetas')">Comprar ahora</button>
+</section>
+
+<section class="categorias">
+  <div class="categoria" onclick="filtrarProductos('camisetas')">
+    <img src="camiseta.jpg">
+    <h2>Camisetas</h2>
+  </div>
+
+  <div class="categoria" onclick="filtrarProductos('hoodies')">
+    <img src="exclusive.png">
+    <h2>Hoodies</h2>
+  </div>
+
+  <div class="categoria" onclick="filtrarProductos('accesorios')">
+    <img src="gorras.jpg">
+    <h2>Accesorios</h2>
+  </div>
+</section>
+
+<section class="productos" id="lista-productos"></section>
 
 <div class="auth-modal hidden" id="authModal">
   <div class="auth-box">
@@ -559,6 +657,39 @@ header {
 </div>
 
 <script>
+
+let productoActual = null;
+
+function abrirProducto(id) {
+  const producto = productos.find(p => p.id === id);
+  if (!producto) return;
+
+  productoActual = producto;
+
+  const modal = document.getElementById("productModal");
+
+  document.getElementById("modalImg").src = producto.imagen;
+  document.getElementById("modalNombre").textContent = producto.nombre;
+  document.getElementById("modalPrecio").textContent = "$" + producto.precio;
+
+  modal.classList.add("active");
+
+  document.getElementById("addCartBtn").onclick = function () {
+    agregarAlCarrito(producto.id);
+  };
+}
+
+function cerrarProducto() {
+  document.getElementById("productModal").classList.remove("active");
+}
+
+function cerrarProducto() {
+  document.getElementById("productModal").classList.remove("active");
+}
+
+function cerrarProducto() {
+  document.getElementById("productModal").classList.add("hidden");
+}
 
   document.addEventListener("click", function(event) {
   const modal = document.getElementById("authModal");
@@ -667,7 +798,7 @@ header {
         <h3>${p.nombre}</h3>
         <p class="descripcion">${p.descripcion || ""}</p>
         <p>$${p.precio}</p>
-        <button onclick="agregarAlCarrito(${p.id})">Agregar al carrito</button>
+        <button onclick="abrirProducto(${p.id})">Ver producto</button>
       </div>
     `;
   });
@@ -679,6 +810,20 @@ header {
 }
 
   window.onload = function() {
+    const menu = document.querySelector(".menu-float");
+
+  window.addEventListener("scroll", function () {
+  const menu = document.querySelector(".menu-float");
+
+  if (!menu) return;
+
+  if (window.scrollY > 200) {
+    menu.classList.add("show");
+  } else {
+    menu.classList.remove("show");
+  }
+});
+
     const sesion = localStorage.getItem("sesionActiva");
 
   if (sesion === "true") {
@@ -760,7 +905,7 @@ document.addEventListener("click", function(event) {
           <h3>${p.nombre}</h3>
           <p class="descripcion">${p.descripcion || ""}</p>
           <p>$${p.precio}</p>
-          <button onclick="agregarAlCarrito(${p.id})">Agregar al carrito</button>
+          <button onclick="abrirProducto(${p.id})">Ver producto</button>
         </div>
       `;
     });
@@ -813,31 +958,6 @@ document.addEventListener("click", function(event) {
 ];
 
   let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-
-  document.getElementById("lista-productos").innerHTML = `
-  <section class="hero">
-    <h1>NUEVA COLECCIÓN</h1>
-    <p>Streetwear exclusivo - Distrit</p>
-    <button onclick="filtrarProductos('camisetas')">Comprar ahora</button>
-  </section>
-
-  <section class="categorias">
-    <div class="categoria" onclick="filtrarProductos('camisetas')">
-      <img src="camiseta.jpg">
-      <h2>Camisetas</h2>
-    </div>
-
-    <div class="categoria" onclick="filtrarProductos('hoodies')">
-      <img src="exclusive.png">
-      <h2>Hoodies</h2>
-    </div>
-
-    <div class="categoria" onclick="filtrarProductos('accesorios')">
-      <img src="gorras.jpg">
-      <h2>Accesorios</h2>
-    </div>
-  </section>
-`;
 
   function agregarAlCarrito(id) {
   const producto = productos.find(p => p.id === id);
@@ -912,6 +1032,20 @@ document.addEventListener("click", function(event) {
   }
 });
 
+function toggleSearch() {
+  const box = document.querySelector(".search-box");
+  const input = document.getElementById("buscador");
+
+  box.classList.toggle("active");
+
+  if (box.classList.contains("active")) {
+    setTimeout(() => input.focus(), 200);
+  } else {
+    input.value = "";
+    buscarProductos();
+  }
+}
+
 </script>
 
 <div class="menu-float">
@@ -937,5 +1071,24 @@ document.addEventListener("click", function(event) {
     <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
   </a>
 </div>
+
+<div class="product-modal" id="productModal">
+  <div class="product-box">
+
+    <button class="close-product" onclick="cerrarProducto()">✕</button>
+
+    <img id="modalImg" src="" />
+
+    <div class="product-info">
+      <h2 id="modalNombre"></h2>
+      <p id="modalPrecio"></p>
+
+      <button id="addCartBtn">Add to cart</button>
+      <button class="buy-now">Buy it now</button>
+    </div>
+
+  </div>
+</div>
+
 </body>
 </html>
