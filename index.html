@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Distrit Merch</title>
+  <style>
+    
+.header-right {
+  display: flex;
+  gap: 1px; /* 🔥 MUY pegados */
+  align-items: center;
+}
+
+.hero {
+  height: 80vh;
+  background: 
+    linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+    url('exclusive.png'); /* imagen de exclusive */
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: 50px;
+  margin: 0;
+}
+
+.hero p {
+  font-size: 18px;
+  margin: 10px 0;
+}
+
+.hero button {
+  margin-top: 15px;
+  font-size: 16px;
+}
+
+    .whatsapp-bubble {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 999;
+}
+
+.whatsapp-bubble img {
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+  transition: transform 0.3s;
+  object-fit: cover;
+}
+
+.whatsapp-bubble img:hover {
+  transform: scale(1.1);
+}
+    :root {
+      --color-principal: #000000;
+      --color-secundario: #191919;
+      --color-fondo: #212121;
+      --color-texto: #222;
+    }
+
+ body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: 
+        linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+        url('distrit.png');
+      background-size: cover;
+      background-position: center;
+      color: black;
+    }
+
+    
+
+    header {
+      background: var(--color-principal);
+      color: white;
+      padding: 0.5rem 1rem; /* 🔥 menos alto */
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+}
+
+    nav {
+      background: var(--color-secundario);
+      padding: 0.5rem;
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+    }
+
+    .productos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      padding: 1rem;
+      position: relative;
+    }
+
+    .producto {
+      background: white;
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .producto img {
+      max-width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    button {
+  background: var(--color-principal);
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  cursor: pointer;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+    .carrito {
+      position: fixed;
+      top: 0;
+      right: 0;
+      background: white;
+      width: 300px;
+      height: 100%;
+      box-shadow: -2px 0 5px rgba(0,0,0,0.2);
+      padding: 1rem;
+      overflow-y: auto;
+    }
+
+    .carrito button {
+  padding: 2px 6px;
+  font-size: 12px;
+  margin: 2px;
+}
+
+    .hidden {
+      display: none;
+    }
+
+    .promo-bubble { 
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 999;
+  text-align: center;
+}
+
+.promo-bubble {
+  display: none !important;
+}
+
+.descripcion {
+  font-size: 14px;
+  color: #777;
+  margin: 5px 0;
+}
+
+.circle {
+  width: 120px;
+  height: 120px;
+  background: #e6e6e6;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-family: Arial;
+  font-size: 16px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.close-btn {
+  position: absolute;
+  top: 12px;
+  right: 18px;
+  background: white;
+  color: black;
+  border: none;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.categorias {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 40px;
+}
+
+.categoria {
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: 15px;
+}
+
+.categoria img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  transition: 0.3s;
+}
+
+.categoria:hover img {
+  transform: scale(1.1);
+}
+
+.categoria h2 {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  color: white;
+  margin: 0;
+  font-size: 24px;
+  text-shadow: 0 2px 5px rgba(0,0,0,0.7);
+}
+
+.producto {
+  background: white;
+  padding: 15px;
+  border-radius: 15px;
+  text-align: left;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+
+.producto img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+/* BOTÓN OCULTO */
+.producto button {
+  width: 100%;
+  margin-top: 10px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: 0.3s;
+}
+
+/* APARECE EN HOVER */
+.producto:hover button {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* PRECIO */
+.producto p {
+  font-weight: bold;
+  margin: 5px 0;
+}
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: aparecer 0.5s forwards;
+}
+
+nav {
+  display: none;
+}
+
+@keyframes aparecer {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.logo {
+  height: 80px;
+  object-fit: contain;
+}
+
+.menu-float {
+  position: fixed;
+  top: 450px;
+  left: 40px;
+  width: 100%;
+  display: flex;
+  justify-content: left;
+  z-index: 9999;
+}
+
+/* BOTÓN */
+.menu-btn {
+  background: #e5e5e5;
+  color: black;
+  border: none;
+  width: 350px; /* 🔥 FIJO */
+  height:70px; /* 🔥 FIJO */
+  border-radius: 50px;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+
+  letter-spacing: 2px;
+  font-size: 18px;
+
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+/* ICONO */
+.menu-btn span {
+  font-family: Arial, sans-serif;
+}
+
+/* HOVER SUAVE */
+.menu-btn:hover {
+  background: #dcdcdc;
+}
+
+.menu-opciones {
+  position: absolute;
+  top: -100px;
+  background: black;
+  border-radius: 10px;
+  padding: 70px;
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 20px;
+}
+
+.hidden {
+  display: none;
+}
+
+.menu-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+
+  display: none;
+  justify-content: center;
+  align-items: center;
+
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.menu-modal.active {
+  display: flex;
+  opacity: 1;
+}
+
+/* CAJA BLANCA */
+.menu-box {
+  background: white;
+  padding: 40px 60px;
+  border-radius: 30px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  animation: aparecerMenu 0.3s ease;
+}
+
+/* LINKS */
+.menu-box a {
+  font-size: 20px;
+  font-style: italic;
+  letter-spacing: 2px;
+  cursor: pointer;
+}
+
+/* BOTÓN X */
+.cerrar-menu {
+  margin-top: 10px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.cerrar-menu {
+  color: black; /* cambia aquí el color */
+}
+
+.loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: black; /* puedes cambiar color */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 20000;
+}
+
+.loader img {
+  width: 300px;
+  animation: zoomLoader 1s infinite alternate;
+}
+
+@keyframes zoomLoader {
+  from { transform: scale(1); }
+  to { transform: scale(1.2); }
+}
+
+.hidden {
+  display: none;
+}
+
+/* ANIMACIÓN */
+@keyframes aparecerMenu {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+#buscador {
+  flex: 1;
+  max-width: 300px;
+  padding: 10px 15px;
+  border-radius: 20px;
+  border: none;
+  outline: none;
+  font-size: 14px;
+}
+
+.auth-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: black;
+
+  display: none;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 20000;
+}
+
+.auth-modal.active {
+  display: flex;
+}
+
+/* CAJA DEL LOGIN */
+.auth-box {
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 250px;
+  text-align: center;
+}
+
+  </style>
+</head>
+
+<body>
+
+<div id="loader" class="loader hidden">
+  <img src="load.jpg" alt="Cargando">
+</div>
+
+<div class="promo-bubble" id="promoBubble">
+  <button class="close-btn" onclick="cerrarPromo()">×</button>
+  <div class="circle">
+    <p><strong>Get<br><strong>50% Off</strong></p>
+  </div>
+</div>
+
+<header>
+  <img src="distrit.png" alt="Distrit" class="logo">
+
+  <input 
+    type="text" 
+    id="buscador" 
+    placeholder="Buscar productos..."
+    oninput="buscarProductos()"
+  >
+  <button onclick="toggleAuth(event)">👤 Login</button>
+  <button onclick="toggleCarrito(event)">
+    🛒 <span id="contador-carrito">0</span>
+  </button>
+</header>
+
+<div class="auth-modal hidden" id="authModal">
+  <div class="auth-box">
+    <input type="text" id="nombre" placeholder="Nombre">
+    <input type="email" id="correo" placeholder="Correo">
+    <input type="password" id="password" placeholder="Contraseña">
+
+    <button onclick="login()">Iniciar sesión</button>
+    <button id="btnRegistrar" onclick="registrar()">Registrarse</button>
+
+    <button class="cerrar-login" onclick="cerrarLogin()">✕</button>
+
+    <p id="mensajeAuth"></p>
+  </div>
+</div>
+
+<nav>
+  <a href="#" onclick="filtrarProductos('camisetas')">Camisetas</a>
+  <a href="#" onclick="filtrarProductos('hoodies')">Hoodies</a>
+  <a href="#" onclick="filtrarProductos('accesorios')">Accesorios</a>
+</nav>
+
+<section class="productos" id="lista-productos"></section>
+
+<div class="promo" id="promoTexto"></div>
+
+<div class="carrito hidden" id="carrito">
+  <h2>Carrito</h2>
+  <ul id="items-carrito"></ul>
+  <p>Total: $<span id="total">0</span></p>
+</div>
+
+<script>
+
+  document.addEventListener("click", function(event) {
+  const modal = document.getElementById("authModal");
+  const box = document.querySelector(".auth-box");
+
+  if (!modal || !box) return;
+
+  if (modal.classList.contains("active")) {
+    if (!box.contains(event.target)) {
+      cerrarLogin();
+    }
+  }
+});
+
+  function cerrarLogin() {
+  document.getElementById("authModal").classList.remove("active");
+}
+
+  document.addEventListener("click", function(event) {
+  const auth = document.querySelector(".auth-box");
+  const boton = document.querySelector("button[onclick='toggleAuth(event)']");
+
+  if (!auth || !boton) return;
+
+  if (auth.style.display === "flex") {
+    if (!auth.contains(event.target) && !boton.contains(event.target)) {
+      auth.style.display = "none";
+    }
+  }
+});
+
+  function toggleAuth(event) {
+  event.stopPropagation();
+
+  const loader = document.getElementById("loader");
+  const modal = document.getElementById("authModal");
+
+  // mostrar loader
+  loader.classList.remove("hidden");
+
+  setTimeout(() => {
+    loader.classList.add("hidden");
+    modal.classList.add("active");
+  }, 1000);
+}
+
+  function registrar() {
+  const nombre = document.getElementById("nombre").value;
+  const correo = document.getElementById("correo").value;
+  const password = document.getElementById("password").value;
+
+  if (!nombre || !correo || !password) {
+    document.getElementById("mensajeAuth").textContent = "Completa todos los campos";
+    return;
+  }
+
+  const usuario = {
+    nombre,
+    correo,
+    password
+  };
+
+  localStorage.setItem("usuario", JSON.stringify(usuario));
+
+  document.getElementById("mensajeAuth").textContent = "Registrado correctamente ✅";
+}
+
+  function login() {
+  const correo = document.getElementById("correo").value;
+  const password = document.getElementById("password").value;
+
+  const usuarioGuardado = JSON.parse(localStorage.getItem("usuario"));
+
+  if (!usuarioGuardado) {
+    document.getElementById("mensajeAuth").textContent = "No hay usuario registrado";
+    return;
+  }
+
+  if (
+    correo === usuarioGuardado.correo &&
+    password === usuarioGuardado.password
+  ) {
+    document.getElementById("mensajeAuth").textContent = "Bienvenido " + usuarioGuardado.nombre;
+
+    localStorage.setItem("sesionActiva", "true");
+  } else {
+    document.getElementById("mensajeAuth").textContent = "Datos incorrectos ❌";
+  }
+}
+
+  function buscarProductos() {
+  const texto = document.getElementById("buscador").value.toLowerCase();
+  const contenedor = document.getElementById("lista-productos");
+
+  contenedor.innerHTML = "";
+
+  const filtrados = productos.filter(p => 
+    p.nombre.toLowerCase().includes(texto) ||
+    (p.descripcion && p.descripcion.toLowerCase().includes(texto))
+  );
+
+  filtrados.forEach((p, index) => {
+    contenedor.innerHTML += `
+      <div class="producto fade-in" style="animation-delay:${index * 0.1}s">
+        <img src="${p.imagen}" alt="${p.nombre}">
+        <h3>${p.nombre}</h3>
+        <p class="descripcion">${p.descripcion || ""}</p>
+        <p>$${p.precio}</p>
+        <button onclick="agregarAlCarrito(${p.id})">Agregar al carrito</button>
+      </div>
+    `;
+  });
+}
+
+  function seleccionarCategoria(categoria) {
+  cerrarMenu(); // 🔥 cierra el menú
+  filtrarProductos(categoria); // 🔥 carga productos
+}
+
+  window.onload = function() {
+    const sesion = localStorage.getItem("sesionActiva");
+
+  if (sesion === "true") {
+  document.getElementById("btnRegistrar").style.display = "none";
+}
+
+  if (sesion === "true") {
+    const usuario = JSON.parse(localStorage.getItem("usuario"));
+    document.getElementById("mensajeAuth").textContent =
+      "Connected with: " + usuario.nombre;
+  }
+  document.getElementById("menuModal").classList.add("hidden");
+
+  renderCarrito();
+  document.getElementById("contador-carrito").textContent =
+    carrito.reduce((acc, p) => acc + p.cantidad, 0);
+
+  
+};
+
+  function abrirMenu(event) {
+  event.stopPropagation();
+  document.getElementById("menuModal").classList.add("active");
+}
+
+function cerrarMenu() {
+  document.getElementById("menuModal").classList.remove("active");
+}
+
+/* cerrar al hacer click afuera */
+document.addEventListener("click", function(event) {
+  const modal = document.getElementById("menuModal");
+  const box = document.querySelector(".menu-box");
+  const boton = document.querySelector(".menu-btn");
+
+  if (!modal || !box || !boton) return;
+
+  if (!modal.classList.contains("hidden")) {
+    if (
+      !box.contains(event.target) &&
+      !boton.contains(event.target)
+    ) {
+      cerrarMenu();
+    }
+  }
+});
+
+document.addEventListener("click", function(event) {
+  const menu = document.getElementById("menuOpciones");
+  const boton = document.querySelector(".menu-btn");
+
+  if (!menu) return;
+
+  if (!menu.classList.contains("hidden")) {
+    if (!menu.contains(event.target) && !boton.contains(event.target)) {
+      menu.classList.add("hidden");
+    }
+  }
+});
+
+
+  function filtrarProductos(categoria) {
+  const loader = document.getElementById("loader");
+  const contenedor = document.getElementById("lista-productos");
+
+  // 🔥 mostrar loader
+  loader.classList.remove("hidden");
+
+  // 🔥 simular carga
+  setTimeout(() => {
+    contenedor.innerHTML = "";
+
+    const filtrados = productos.filter(p => p.categoria === categoria);
+
+    filtrados.forEach((p, index) => {
+      contenedor.innerHTML += `
+        <div class="producto fade-in" style="animation-delay:${index * 0.1}s">
+          <img src="${p.imagen}" alt="${p.nombre}">
+          <h3>${p.nombre}</h3>
+          <p class="descripcion">${p.descripcion || ""}</p>
+          <p>$${p.precio}</p>
+          <button onclick="agregarAlCarrito(${p.id})">Agregar al carrito</button>
+        </div>
+      `;
+    });
+
+    // 🔥 ocultar loader
+    loader.classList.add("hidden");
+
+  }, 1500); // 1.5 segundos
+}
+
+  function eliminarProducto(id) {
+  carrito = carrito.filter(p => p.id !== id);
+  renderCarrito();
+}
+
+  function cerrarPromo() {
+  const promo = document.getElementById("promoBubble");
+  if (promo) {
+    promo.style.display = "none";
+  }
+}
+  const textoPromo = "ᴅɪsᴛʀɪᴛ ɪɴᴄᴏʀᴘᴏʀᴀᴛɪᴏɴ®";
+
+  document.getElementById("promoTexto").textContent = textoPromo;
+  const productos = [
+  { 
+    id: 1, 
+    nombre: "Overzide", 
+    precio: 59999, 
+    imagen: "Calabera.png",
+    descripcion: "100% Algodon, Distrit Incorporated.",
+    categoria: "camisetas"
+  },
+  { 
+    id: 2, 
+    nombre: "Hoodie Black", 
+    precio: 120000, 
+    imagen: "Calabera.png",
+    descripcion: "Hoodie premium",
+    categoria: "hoodies"
+  },
+  { 
+    id: 3, 
+    nombre: "Gorra", 
+    precio: 40000, 
+    imagen: "Calabera.png",
+    descripcion: "Accesorio streetwear",
+    categoria: "accesorios"
+  }
+];
+
+  let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+  document.getElementById("lista-productos").innerHTML = `
+  <section class="hero">
+    <h1>NUEVA COLECCIÓN</h1>
+    <p>Streetwear exclusivo - Distrit</p>
+    <button onclick="filtrarProductos('camisetas')">Comprar ahora</button>
+  </section>
+
+  <section class="categorias">
+    <div class="categoria" onclick="filtrarProductos('camisetas')">
+      <img src="camiseta.jpg">
+      <h2>Camisetas</h2>
+    </div>
+
+    <div class="categoria" onclick="filtrarProductos('hoodies')">
+      <img src="exclusive.png">
+      <h2>Hoodies</h2>
+    </div>
+
+    <div class="categoria" onclick="filtrarProductos('accesorios')">
+      <img src="gorras.jpg">
+      <h2>Accesorios</h2>
+    </div>
+  </section>
+`;
+
+  function agregarAlCarrito(id) {
+  const producto = productos.find(p => p.id === id);
+
+  const existente = carrito.find(p => p.id === id);
+
+  if (existente) {
+    existente.cantidad += 1;
+  } else {
+    carrito.push({ ...producto, cantidad: 1 });
+  }
+
+  renderCarrito();
+}
+
+function cambiarCantidad(id, cambio) {
+  const producto = carrito.find(p => p.id === id);
+
+  if (producto) {
+    producto.cantidad += cambio;
+
+    if (producto.cantidad <= 0) {
+      carrito = carrito.filter(p => p.id !== id);
+    }
+
+    renderCarrito();
+  }
+}
+
+  function renderCarrito() {
+  const lista = document.getElementById("items-carrito");
+  const total = document.getElementById("total");
+
+  lista.innerHTML = "";
+  let suma = 0;
+
+  carrito.forEach(p => {
+    lista.innerHTML += `
+      <li>
+        ${p.nombre} 
+        <button onclick="cambiarCantidad(${p.id}, -1)">➖</button>
+        x${p.cantidad}
+        <button onclick="cambiarCantidad(${p.id}, 1)">➕</button>
+        - $${p.precio * p.cantidad}
+        <button onclick="eliminarProducto(${p.id})">❌</button>
+      </li>
+    `;
+    suma += p.precio * p.cantidad;
+  });
+
+  total.textContent = suma;
+
+  const totalItems = carrito.reduce((acc, p) => acc + p.cantidad, 0);
+  document.getElementById("contador-carrito").textContent = totalItems;
+
+  // 🔥 GUARDAR AQUÍ (CORRECTO)
+  localStorage.setItem("carrito", JSON.stringify(carrito));
+}
+
+  function toggleCarrito(event) {
+  event.stopPropagation(); // 🔥 evita que el click se propague
+  document.getElementById("carrito").classList.toggle("hidden");
+}
+
+document.addEventListener("click", function(event) {
+  const carrito = document.getElementById("carrito");
+
+  if (!carrito.classList.contains("hidden")) {
+    if (!carrito.contains(event.target)) {
+      carrito.classList.add("hidden");
+    }
+  }
+});
+
+</script>
+
+<div class="menu-float">
+  <button onclick="abrirMenu(event)" class="menu-btn">
+    ☰ <span>MENU</span>
+  </button>
+</div>
+
+<!-- MENU MODAL -->
+<div class="menu-modal hidden" id="menuModal">
+  <div class="menu-box">
+    <a onclick="seleccionarCategoria('todos')">START</a>
+    <a onclick="seleccionarCategoria('camisetas')">CATALOGUE</a>
+    <a onclick="seleccionarCategoria('accesorios')">CONTACT</a>
+
+    <button class="cerrar-menu" onclick="cerrarMenu()">✕</button>
+  </div>
+</div>
+
+<div class="whatsapp-bubble">
+  <a href="https://wa.me/c/573134836039
+" target="_blank">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+  </a>
+</div>
+</body>
+</html>
